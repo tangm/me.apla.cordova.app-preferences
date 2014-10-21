@@ -145,7 +145,7 @@ public class AppPreferences extends CordovaPlugin {
 		if (sharedPrefs.contains(key)) {
 			Object obj = sharedPrefs.getAll().get(key);
 			String objClass = obj.getClass().getName();
-			if (objClass.equals("java.lang.Integer")) {
+			if (objClass.equals("java.lang.Integer") || objClass.equals("java.lang.Long")) {
 				returnVal = obj.toString();
 			} else if (objClass.equals("java.lang.Float") || objClass.equals("java.lang.Double")) {
 				returnVal = obj.toString();
@@ -162,7 +162,7 @@ public class AppPreferences extends CordovaPlugin {
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						callbackContext.error(0);
+						callbackContext.error(e.getMessage());
 						return;
 					}
 					returnVal = fakeArray.substring(1, fakeArray.length()-1);
@@ -176,7 +176,7 @@ public class AppPreferences extends CordovaPlugin {
 			callbackContext.success(returnVal);
 		} else {
 //          Log.d("", "no value");
-				callbackContext.error(0);
+				callbackContext.error("Prefs did not contain key " + key);
 //            callbackContext.sendPluginResult(new PluginResult ());
 		}
 
